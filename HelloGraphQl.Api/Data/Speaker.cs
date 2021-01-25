@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace HelloGraphQl.Api.Data
@@ -8,10 +9,11 @@ namespace HelloGraphQl.Api.Data
         public Guid Id { get; set; }
         [Required]
         [StringLength(200)]
-        public string Name { get; set; }
+        public string? Name { get; set; }
         [StringLength(4000)]
-        public string Bio { get; set; }
+        public string? Bio { get; set; }
         [StringLength(1000)]
-        public string WebSite { get; set; }
+        public string? WebSite { get; set; }
+        public ICollection<SessionSpeaker> SessionSpeakers { get; set; } = new List<SessionSpeaker>();
     }
 }

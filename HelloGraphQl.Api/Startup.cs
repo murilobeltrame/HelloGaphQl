@@ -1,5 +1,7 @@
 using HelloGraphQl.Api.Data;
+using HelloGraphQl.Api.DataLoader;
 using HelloGraphQl.Api.Mutations.AddSpeaker;
+using HelloGraphQl.Api.Types;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -21,12 +23,16 @@ namespace HelloGraphQl.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite("Data Source=conferences.db"));
+            //services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite("Data Source=conferences.db"));
+            services.AddPooledDbContextFactory<ApplicationDbContext>(options => options.UseSqlite("Data Source=conferences.db"));
 
             services
                 .AddGraphQLServer()
                 .AddQueryType<Query>()
-                .AddMutationType<AddSpeakerMutation>();
+                .AddMutationType<AddSpeakerMutation>()
+                .AddType<SpeakerType>()
+                .AddDataLoader<SpeakerByIdDataLoader>()
+                .AddDataLoader<SessionByIdDataLoader>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

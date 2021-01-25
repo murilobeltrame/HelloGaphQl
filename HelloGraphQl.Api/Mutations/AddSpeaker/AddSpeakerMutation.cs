@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using HelloGraphQl.Api.Attributes;
 using HelloGraphQl.Api.Data;
 using HotChocolate;
 
@@ -6,7 +7,8 @@ namespace HelloGraphQl.Api.Mutations.AddSpeaker
 {
     public class AddSpeakerMutation
     {
-        public async Task<AddSpeakerPayload> AddSpeakerAsync(AddSpeakerInput input, [Service]ApplicationDbContext context)
+        [UseApplicationDbContext]
+        public async Task<AddSpeakerPayload> AddSpeakerAsync(AddSpeakerInput input, [ScopedService]ApplicationDbContext context)
         {
             var speaker = new Speaker
             {
